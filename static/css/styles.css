@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    background-color: rgb(93, 8, 250);
+    color: #fff;
+    font-weight: bold;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header a {
+    text-decoration: none;
+    color: #fff;
+    margin-right: 1rem;
+}
+
+.auth-area span{
+    margin-right: .5rem;
+}
+
+main {
+    padding: 2rem;
+}

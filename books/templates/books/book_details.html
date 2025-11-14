@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Detalhes livro{% endblock %}
+{% block content %}
+    <h1>{{ object.title }}</h1>
+    <p>Autor: {{ object.author }}</p>
+
+    <p>
+        Status:
+        {% if object.published %}
+            <strong>Publicado</strong>
+        {% else %}
+            <strong>Rascunho</strong>
+        {% endif %}
+    </p>
+
+    {% if perms.books.change_book %}
+        <a href="{% url 'books:update' object.pk %}">Editar</a>
+    {% endif %}
+
+    {% if perms.books.delete_book %}
+        <a href="{% url 'books:delete' object.pk %}">Excluir</a>
+    {% endif %}
+
+    {% if perms.books.publish_book and not object.published %}
+        <form action="{% url 'books:publish' object.pk %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Publicar</button>
+        </form>
+    {% endif %}
+
+    <p><a href="{% url 'books:list' %}">Voltar</a></p>
+{% endblock %}

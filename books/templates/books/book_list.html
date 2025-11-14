@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Detalhes livro{% endblock %}
+{% block content %}
+  {# books/templates/books/book_list.html #}
+  {% for book in object_list %}
+    <h3>{{ book.title }}</h3>
+    <p>{{ book.author }}</p>
+
+    {% if perms.books.change_book %}
+      <a href="{% url 'books:update' book.pk %}">Editar</a>
+    {% endif %}
+
+    {% if perms.books.delete_book %}
+      <a href="{% url 'books:delete' book.pk %}">Remover</a>
+    {% endif %}
+
+    {% if perms.books.publish_book and not book.published %}
+      <form action="{% url 'books:publish' book.pk %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Publicar</button>
+      </form>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Editar livro{% endblock %}
+{% block content %}
+    <h1>
+        {% if object %}
+            Editar: {{ object.title }}
+        {% else %}
+            Adicionar novo livro
+        {% endif %}
+    </h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvar</button>
+    </form>
+
+    <p><a href="{% url 'books:list' %}">Voltar</a></p>
+{% endblock %}

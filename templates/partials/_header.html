@@ -1,0 +1,42 @@
+{# templates/partials/_header.html #}
+<header>
+  <h1>Livros</h1>
+  <nav>
+    <a href="/">Home</a>
+    <a href="{% url 'books:list' %}">Livros</a>
+
+    {% if perms.books.add_book %}
+      <a href="{% url 'books:add' %}">Adicionar Livro</a>
+    {% endif %}
+
+    {% if user.is_staff %}
+      <a href="{% url 'admin:index' %}" target="_blank">Admin</a>
+    {% endif %}
+  </nav>
+
+  <div class="auth-area">
+    {% if user.is_authenticated %}
+      <span>Olá, {{ user.get_username }}</span>
+
+      {# Mostrar papel com base em permissões (mais confiável que checar grupos) #}
+      {% if user.is_superuser %}
+        <span> — Administrador</span>
+      {% elif perms.books.publish_book %}
+        <span> — Editor</span>
+      {% elif perms.books.view_book %}
+        <span> — Leitor</span>
+      {% endif %}
+
+      <a href="{% url 'logout' %}">Sair</a>
+    {% else %}
+      <form method="post" action="{% url 'login' %}" style="display:inline;">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Usuário" required>
+        <input type="password" name="password" placeholder="Senha" required>
+        <input type="hidden" name="next" value="{{ request.path }}">
+        <button type="submit">Entrar</button>
+      </form>
+      <a href="{% url 'login' %}">Página de login</a>
+    {% endif %}
+  </div>
+</header>
