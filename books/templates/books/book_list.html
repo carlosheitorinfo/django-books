@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Detalhes livro{% endblock %}
 {% block content %}
-  {# books/templates/books/book_list.html #}
+  {{ qs }}
   {% for book in object_list %}
     <h3>{{ book.title }}</h3>
     <p>{{ book.author }}</p>
