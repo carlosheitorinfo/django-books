@@ -12,14 +12,7 @@ Este projeto é uma aplicação Django para gerenciar livros com permissões esp
 
 Siga os passos abaixo para configurar e executar o projeto:
 
-### 1. Clone o repositório
-
-```bash
-git clone https://github.com/ricardoazeredo/django-livros-permission.git
-cd django-livros-permission
-```
-
-### 2. Crie e ative um ambiente virtual
+### 1. Crie e ative um ambiente virtual
 
 No Windows:
 ```bash
@@ -33,13 +26,13 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-### 3. Instale as dependências
+### 2. Instale as dependências
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure o banco de dados
+### 3. Configure o banco de dados
 
 Crie as migrações e aplique-as:
 ```bash
@@ -47,7 +40,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 5. Crie um superusuário
+### 4. Crie um superusuário
 
 ```bash
 python manage.py createsuperuser
@@ -55,74 +48,57 @@ python manage.py createsuperuser
 
 Siga as instruções no terminal para definir o nome de usuário, e-mail e senha.
 
-### 6. Configure os grupos e permissões
+### 5. Configure os grupos e permissões
 
-Para configurar os grupos e permissões, siga os passos abaixo:
+Para configurar os grupos e permissões, siga os passos detalhados abaixo:
 
-1. Certifique-se de que o ambiente virtual está ativado. Caso não esteja, ative-o:
-   - **Windows**: `source .venv/Scripts/activate`
-   - **Linux/Mac**: `source .venv/bin/activate`
+1. **Ative o ambiente virtual**:
+   Certifique-se de que o ambiente virtual está ativado para garantir que os pacotes e configurações do projeto sejam usados corretamente.
+   - No **Windows**:
+     ```bash
+     source .venv/Scripts/activate
+     ```
+   - No **Linux/Mac**:
+     ```bash
+     source .venv/bin/activate
+     ```
 
-2. Verifique se o banco de dados está configurado corretamente e as migrações foram aplicadas:
+2. **Verifique as migrações do banco de dados**:
+   Antes de configurar os grupos e permissões, é necessário garantir que o banco de dados esteja atualizado com as tabelas necessárias. Execute o comando abaixo:
    ```bash
    python manage.py migrate
    ```
-   Este comando garante que todas as tabelas necessárias, incluindo as de permissões, estejam criadas no banco de dados.
+   Este comando aplica todas as migrações pendentes, criando as tabelas necessárias para o funcionamento do sistema, incluindo as relacionadas a permissões.
 
-3. Execute o comando customizado para criar os grupos e permissões:
+3. **Entenda o comando `setup_roles`**:
+   O comando `setup_roles` é um comando customizado definido no arquivo `books/management/commands/setup_roles.py`. Ele realiza as seguintes ações:
+   - Cria três grupos de usuários: `Administrator`, `Editor` e `Reader`.
+   - Associa permissões específicas a cada grupo:
+     - **Administrator**: Todas as permissões relacionadas ao modelo `Book`.
+     - **Editor**: Permissões para adicionar, alterar, excluir, visualizar e publicar livros.
+     - **Reader**: Permissão apenas para visualizar livros.
+
+4. **Execute o comando `setup_roles`**:
+   Após garantir que o banco de dados está configurado, execute o comando abaixo para criar os grupos e associar as permissões:
    ```bash
    python manage.py setup_roles
    ```
-   Este comando irá:
-   - Criar os grupos `Administrator`, `Editor` e `Reader`.
-   - Associar as permissões adequadas a cada grupo, como definido no arquivo `setup_roles.py`.
+   Este comando utiliza o modelo `Permission` do Django para configurar as permissões e associações de forma programática.
 
-4. Após a execução, você verá uma mensagem de sucesso no terminal confirmando que os grupos foram criados ou atualizados:
+5. **Verifique a saída do comando**:
+   Após a execução, você verá uma mensagem no terminal confirmando que os grupos foram criados ou atualizados com sucesso:
    ```
    Groups created/updated.
    ```
-
-### 7. Inicie o servidor de desenvolvimento
+6. **Inicie o servidor de desenvolvimento**:
 
 ```bash
 python manage.py runserver
 ```
 
 Acesse o projeto no navegador em: [http://127.0.0.1:8000](http://127.0.0.1:8000)
-
-## Explicação Detalhada
-
-### Passo 1: Clonar o repositório
-
-Este comando baixa o código do repositório GitHub e navega até o diretório do projeto.
-
-### Passo 2: Criar e ativar o ambiente virtual
-
-O ambiente virtual isola as dependências do projeto, garantindo que pacotes instalados não interfiram em outros projetos.
-
-- **Windows**: Use `source .venv/Scripts/activate` para ativar o ambiente.
-- **Linux/Mac**: Use `source .venv/bin/activate`.
-
-### Passo 3: Instalar dependências
-
-O comando `pip install -r requirements.txt` instala todas as bibliotecas necessárias listadas no arquivo `requirements.txt`.
-
-### Passo 4: Configurar o banco de dados
-
-- `python manage.py makemigrations`: Cria os arquivos de migração com base nos modelos definidos.
-- `python manage.py migrate`: Aplica as migrações ao banco de dados, criando as tabelas necessárias.
-
-### Passo 5: Criar um superusuário
-
-O comando `createsuperuser` cria um administrador para acessar o painel de administração do Django.
-
-### Passo 6: Configurar grupos e permissões
-
-O comando customizado `setup_roles` cria os grupos `Administrator`, `Editor` e `Reader`, e associa as permissões adequadas a cada grupo.
-
-### Passo 7: Iniciar o servidor de desenvolvimento
-
-O comando `runserver` inicia o servidor local para testar a aplicação. Acesse o endereço [http://127.0.0.1:8000](http://127.0.0.1:8000) no navegador para visualizar o projeto.
+7. **Confirme as configurações no admin**:
+   Acesse o painel de administração do Django em [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin) com o superusuário criado anteriormente. Navegue até a seção de grupos para verificar se os grupos `Administrator`, `Editor` e `Reader` foram criados e se as permissões estão associadas corretamente.
 
 ---
 
